@@ -1,0 +1,140 @@
+<form  name="container-form" class="mt-4" method="POST" action="/product/handle-form-restore" >
+<div class="mt-4 container">
+    
+    <div>
+        <h3>Sản phẩm đã xóa</h3>
+        <a href="/product/store">Sản phẩm đã đăng</a>
+    </div>
+    <div>
+        <div class="form-check pull-left">
+          <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+          <label class="form-check-label" for="checkbox-all">
+            Chọn tất cả  
+          </label>
+        </div>
+        <div class="pull-left">
+          <select class="form-control form-control-sm checkbox-select-all" name="action" required>
+              <option value="">--Chọn hành động--</option>
+              <option value="restore">Khôi phục</option>
+              <option value="permanently">Xóa vĩnh viễn</option>
+          </select>
+          </div>
+          <button class="pull-left" id="submit-btn" >Áp dụng</button>
+      </div>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th></th>
+                <th scope="col">STT</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Loại sản phẩm</th>
+                <th scope="col" colspan="3">Thời gian xóa</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+             {{#each product}}
+            <tr>
+                <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="productIds[]" value="{{this._id}}"
+                    </div>
+                </td>
+                
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.type}}</td>
+                <td>{{this.deletedAt}}</td>
+                <td>    
+                    <a href="" class="restore-btn" data-id="{{this._id}}" >Khôi phục</a>
+                </td>
+                <td>
+                    <a href="" data-toggle="modal"  data-target="#exampleModal" data-id="{{this._id}}" >Xóa vĩnh viễn</a>
+
+                </td>
+                
+            </tr>    
+            {{else}}
+            <tr>
+              <td colspan="5" class=" text-center">
+                Thùng rác trống.<br>
+                <a href="/product/store">Sản phẩm đã đăng</a>
+                
+              </td>
+            </tr>
+             {{/each}}    
+        </tbody>
+        </table>    
+</div>
+</form>
+<form method="POST" name="form-delete">
+</form>
+<form method="POST" name="form-restore">
+</form>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có đồng ý xóa không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Hủy </button>
+        <button id="delete" type="button"  class="btn btn-primary">Xóa vĩnh viễn</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script  >
+  document.addEventListener('DOMContentLoaded', function () {
+    var id;
+    var deleteForm = document.forms['form-delete'];
+    var restoreForm = document.forms['form-restore'];
+    var restorebtn = $('.restore-btn');
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        id = button.data('id');
+    });
+    var btnDelete = document.getElementById('delete');
+    btnDelete.onclick = function () {
+        deleteForm.action = '/product/' + id + '/forceDestory?_method=DELETE';
+        deleteForm.submit();
+    };
+    restorebtn.click(function (e) {
+        e.preventDefault(); // bỏ hành vi mặc định thẻ a;
+        var productId = $(this).data('id');
+        restoreForm.action =
+            '/product/' + productId + '/restore' + '?_method=PATCH';
+        restoreForm.submit();
+    });
+    // checkbox all
+    var checkboxAll = $('#checkbox-all');
+    var productItemCheck = $('input[name="productIds[]"]');
+    checkboxAll.change(function () {
+        var isCheckedAll = $(this).prop('checked');
+        productItemCheck.prop('checked', isCheckedAll);
+        renderCheckSubmit();
+    });
+    productItemCheck.change(function () {
+        var isCheckedAll =
+            productItemCheck.length ===
+            $('input[name="productIds[]"]:checked').length;
+        checkboxAll.prop('checked', isCheckedAll);
+        renderCheckSubmit();
+    });
+    // button checkbox
+    var checkSubmit = $('#submit-btn');
+    function renderCheckSubmit() {
+        var isCheckedAll = $('input[name="productIds[]"]:checked').length;
+        if (isCheckedAll > 0) {
+            checkSubmit.removeAttr('disabled');
+        } else{ checkSubmit.attr('disabled', true);}
+    }
+});
+
+</script> 

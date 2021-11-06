@@ -1,0 +1,134 @@
+<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: slideInLeft;">
+				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Register</li>
+			</ol>
+		</div>
+	</div>
+<div class="container">
+	<div class="register">
+		<h2>Đăng ký</h2>
+		  	  <form id="formRegister" action="/account/create" method="post">
+				 <div class="col-md-6  register-top-grid">
+					
+					<div class="mation">
+					{{#if error}}
+						<div class="alert alert-danger" role="alert">
+							<span class="glyphicon" aria-hidden="true"></span>
+							{{error}}
+						</div>
+					{{/if}}
+						<span>Họ và Tên</span>
+						<input id="fullName" type="text" name="fullName" placeholder="VD:Nguyễn Văn Tùng" required> 
+						<span>Ngày sinh</span>
+						<input id="dob" type="date" name="dob" required>
+						<span>Địa chỉ email</span>
+						<input id="email" type="text" name="email" placeholder="email@gmail.com" required>
+					</div>
+					<div class="clearfix"> </div>
+
+					 </div>
+				     <div class=" col-md-6 register-bottom-grid">
+						   
+							<div class="mation">
+								<span>Mật khẩu</span>
+								<input id="password" type="password" name="password" placeholder="Nhập mật khẩu tối thiểu 6 ký tự" required>						
+								<span>Nhập lại mật khẩu</span>
+								<input type="password" name="confirm" placeholder="Nhập lại mật khẩu " required>
+							</div>
+					 </div>
+					 <div class="clearfix"> </div>
+					<div class="register-but">  
+					   <button class="form-submit" type="submit" >Đăng ký</button>
+					   <div  class="clearfix"> </div>
+					</div>
+				</form>
+		   </div>
+</div>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function() {
+	$.validator.addMethod('minAge', function(value, element, min) {
+		var today = new Date();
+		var dobDate = new Date(value);
+		var age = today.getFullYear() - dobDate.getFullYear();
+		if ( age > min + 1) {
+			return true;
+		}
+		var m = today.getMonth() - dobDate.getMonth();
+		if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+			age--;
+		}
+		return age >= min;
+  	});
+	$.validator.addMethod('maxAge', function(value, element, max) {
+		var today = new Date();
+		var dobDate = new Date(value);
+		var age = today.getFullYear() - dobDate.getFullYear();
+
+		return age <= max;
+  	});
+	$("#formRegister").validate({
+		rules: {
+			fullName: {
+				required: true,
+				minlength: 10,
+				maxlength: 36
+			},
+			dob: {
+				required: true,
+				minAge: 10,
+				maxAge: 90
+			},
+			password: {
+				required: true,
+				minlength: 6
+			},
+			confirm: {
+				required: true,
+				minlength: 6,
+				equalTo: "#password"
+			},
+			email: {
+				required: true,
+				minlength: 17,
+				email: true
+			},
+		},
+		messages: {
+			fullName: {
+				required: 'Vui lòng nhập đầu đủ họ và tên',
+				minlength: 'Vui lòng nhập đầu đủ họ và tên',
+				maxlength: 'Họ và Tên không hợp lệ'
+			},
+			dob: {
+				required:  'Vui lòng nhập ngày tháng năm sinh',
+				minAge: 'Bạn phải trên 10 tuổi',
+				maxAge: 'Bạn nhập số năm không hợp lệ'
+			},
+			password: {
+				required: 'Vui lòng nhập mật khẩu',
+				minlength: 'Vui lòng nhập ít nhất 5 kí tự'
+			},
+			confirm: {
+				required: 'Vui lòng nhập mật khẩu',
+				minlength: 'Vui lòng nhập ít nhất 6 kí tự',
+				equalTo: 'Mật khẩu không trùng'
+			},
+			email: "Định dạng email sai"
+		},
+		highlight: function (element) {
+			$(element).parent().addClass('error')
+		},
+		unhighlight: function (element) {
+			$(element).parent().removeClass('error')
+		},
+		submitHandler: function(form) {
+      	form.submit();
+    }
+	});
+});
+})
+</script>

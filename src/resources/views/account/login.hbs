@@ -1,0 +1,82 @@
+<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: slideInLeft;">
+				<li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Đăng Nhập</li>
+			</ol>
+		</div>
+	</div>
+<div class="account">
+	<div class="container">
+		<h2>Đăng Nhập</h2>
+		<div class="account_grid">
+			   <div class="col-md-6 login-right">
+				<form id="formlogin" action="/account/login" method="post">
+					{{#if error}}
+					<div class="alert alert-danger" role="alert">
+					<span class="glyphicon" aria-hidden="true"></span>
+						{{error}}
+					</div>
+					{{else if message}}
+					<div class="alert alert-success" role="alert">
+					<span class="glyphicon" aria-hidden="true"></span>
+						{{message}}
+					</div>
+					{{/if}}
+					
+					<span>Địa chỉ Email</span>
+					<input id="email" type="text" value="" name="email"> 
+					<span>Mật khẩu</span>
+					<input id="password" type="password" value="" name="password"> 
+					<div class="word-in">
+				  		<a class="forgot" href="/account/email">Quên mật khẩu</a>
+				 		<button  type="submit" >Đăng nhập</button>
+				  	</div>
+			    </form>
+			   </div>	
+			    <div class="col-md-6 login-left">
+			  	 <h4>Tạo tài khoản mới</h4>
+				 <p>Đăng ký tài khoản với cửa hàng của chúng tôi, bạn có thể thực hiện quy trình thanh toán nhanh hơn, lưu trữ nhiều địa chỉ giao hàng, xem và theo dõi các đơn đặt hàng trong tài khoản của bạn và hơn thế nữa.</p>
+				 <a class="acount-btn" href="/account/create">Đăng ký tài khoản</a>
+			   </div>
+			   <div class="clearfix"> </div>
+			 </div>
+	</div>
+</div>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function() {
+	$("#formlogin").validate({
+		rules: {
+            password: {
+				required: true,
+				minlength: 6,
+			},
+			email: {
+				required: true,
+				minlength: 17,
+				email: true
+			}
+		},
+		messages: {
+			password: {
+				required: 'Vui lòng nhập mật khẩu',
+				minlength: 'Vui lòng nhập ít nhất 6 kí tự'
+			},
+            email: 'Định dạng email sai'
+		},
+		highlight: function (element) {
+			$(element).parent().addClass('error')
+		},
+		unhighlight: function (element) {
+			$(element).parent().removeClass('error')
+		},
+		submitHandler: function(form) {
+      	form.submit();
+		}
+    
+	})
+});
+})
+</script>

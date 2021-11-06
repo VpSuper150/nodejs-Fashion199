@@ -1,0 +1,138 @@
+<form  name="container-form" class="mt-4" method="POST" action="/product/handle-form-actions" >
+<div class="container mt-4">
+    <div >
+      <h3 class="text-center">Sản phẩm đã đăng</h3>
+      <!-- Khi thùng rác trống thì sẽ không xuất hiện thùng rác -->
+       {{#if deleteProduct}}
+      <a href="/product/trash">Thùng rác ({{deleteProduct}})</a>
+      {{else if message}}
+        <div class="alert alert-success" role="alert">
+        <span class="glyphicon" aria-hidden="true"></span>
+          {{message}}
+        </div>
+      {{/if}}
+      <div >
+        <div class="form-check pull-left">
+          <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+          <label class="form-check-label" for="checkbox-all">
+            Chọn tất cả  
+          </label>
+        </div>
+        <div class="pull-left">
+          <select class="formcontrol text-center" name="action" required>
+              <option  value="">--Chọn hành động--</option>
+              <option value="delete">Xóa</option>   
+          </select>
+        </div>
+          <button class="submit-btn pull-left " disabled>Áp dụng</button>
+      </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr> 
+                <th></th>
+                <th scope="col">STT</th>
+                <th scope="col">Tên sản phẩm &ensp; 
+                </th>
+                <th scope="col">Loại sản phẩm
+                </th>
+                <th scope="col">Số lượng
+                </th>
+                <th scope="col" colspan="3">Thời gian tạo
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+             {{#each product}}
+            <tr>
+                <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="productIds[]" value="{{this._id}}">
+                    </div>
+                </td>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.type}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.createdAt}}</td>
+                <td>    
+                    <a href="/product/{{this._id}}/edit">Sửa</a>
+                </td>
+                <td>
+                    <a href="" data-toggle="modal" data-id="{{this._id}}" data-target="#myModal">Xóa</a>
+
+                </td>
+                
+            </tr>    
+            {{else}}
+            <tr>
+              <td colspan="5" class=" text-center">
+                Bạn chưa đăng sản phẩm nào.<br>
+                <a href="/product/creat">Đăng Sản Phẩm</a>
+              </td>
+            </tr>
+             {{/each}}    
+        </tbody>
+        </table>    
+</div>
+</form>
+<!-- Form delete -->
+<form method="POST" name="form-delete">
+</form>
+<!-- delete -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Thông báo</h4>
+      </div>
+      <div class="modal-body">
+        Bạn vẫn muốn tiếp tục xóa
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="delete" class="btn btn-primary">Xóa</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script >
+  document.addEventListener('DOMContentLoaded', function () {
+    var id;
+    var deleteForm = document.forms['form-delete'];
+    var btnDelete = $('#delete');
+    var checkboxAll = $('#checkbox-all');
+    var productItemCheck = $('input[name="productIds[]"]');
+    var checkSubmit = $('.submit-btn');
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        id = button.data('id');
+        console.log(id)
+    });
+    btnDelete.click(function () {
+        deleteForm.action = '/product/' + id + '?_method=delete';
+        deleteForm.submit();
+    });
+    // checkbox all
+    checkboxAll.change(function () {
+        var isCheckedAll = $(this).prop('checked');
+        productItemCheck.prop('checked', isCheckedAll);
+        renderCheckSubmit();
+    });
+    productItemCheck.change(function () {
+        var isCheckedAll = productItemCheck.length === $('input[name="productIds[]"]:checked').length;
+        checkboxAll.prop('checked', isCheckedAll);
+        renderCheckSubmit();
+    });
+        // button checkbox
+    function renderCheckSubmit() {
+        var isCheckedAll = $('input[name="productIds[]"]:checked').length;
+        if (isCheckedAll) {
+            checkSubmit.attr('disabled', false);
+        } else checkSubmit.attr('disabled',true);
+    }
+});
+
+</script>

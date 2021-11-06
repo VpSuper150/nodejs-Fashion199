@@ -1,0 +1,94 @@
+<div class="container mt-4 mb-4 register">
+    <h2 class="text-center">Sửa Sản Phẩm</h2>
+    <form id="formedit" method="POST" action="/product/{{product._id}}?_method=PUT">
+    {{#if error}}
+      <div class="alert alert-danger" role="alert">
+        <span class="glyphicon" aria-hidden="true"></span>
+        {{error}}
+      </div>
+    {{/if}}
+    <div class="form-group">
+      <label for="name">Tên sản phẩm</label>
+      <input type="text" class="form-control" value="{{product.name}}" id="name" name="name" >
+    </div>
+    <div class="form-group">
+      <label for="description">Mô tả sản phẩm</label>
+      <textarea class="form-control" id="description"  rows="3" name="description">{{product.description}}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="image">Link hình ảnh</label>
+      <input type="text" class="form-control" value="{{product.image}}" id="image" name="image" >
+    </div>
+    <div class="form-group">
+      <label for="type">Loại sản phẩm</label>
+      <input type="text" class="form-control" value="{{product.type}}" id="type" name="type" >
+    </div>
+    <div class="form-group">
+      <label for="stock">Số lượng kho</label>
+      <input type="number" class="form-control" value="{{product.stock}}" id="stock" name="stock" >
+    </div>
+    <div class="form-group">
+      <label for="price">Giá sản phẩm</label>
+      <input type="number" class="form-control" value="{{product.price}}" id="price" name="price" >
+    </div>
+    <button type="submit" class="btn btn-primary">Cập Nhật</button>
+    </form>
+</div>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function() {
+	$("#formedit").validate({
+		rules: {
+			name: {
+				required: true,
+			},
+			description: {
+				required: true,
+			},
+			image: {
+				required: true,
+			},
+			type: {
+				required: true,
+			},
+			stock: {
+				required: true,
+      },
+      price: {
+				required: true,
+      }
+		},
+		messages: {
+			name: {
+				required: 'Bạn chưa nhập tên sản phẩm',
+			},
+			description: {
+				required: 'Bạn chưa nhập thông tin sản phẩm',
+			},
+			image: {
+				required: 'Bạn chưa nhập ảnh sản phẩm',
+			},
+			type: {
+				required: 'Bạn chưa nhập loại sản phẩm',
+			},
+			stock: {
+				required: 'Bạn chưa nhập số lượng sản phẩm',
+      },
+      price: {
+				required: 'Bạn chưa nhập giá sản phẩm',
+      }
+		},
+		highlight: function (element) {
+			$(element).parent().addClass('error')
+		},
+		unhighlight: function (element) {
+			$(element).parent().removeClass('error')
+		},
+		submitHandler: function(form) {
+      	form.submit();
+    }
+	});
+});
+})
+</script>
