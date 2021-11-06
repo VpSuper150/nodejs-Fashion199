@@ -4,12 +4,12 @@ const port = process.env.PORT || 3000;
 //const morgan = require('morgan');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const db = require('./config/db/index');
-const route = require('./routes');
+const db = require('./src/config/db/index');
+const route = require('./src/routes');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
-const nameUser = require('./app/middleware/nameUser');
+const nameUser = require('./src/app/middleware/nameUser');
 
 //express-session
 app.set('trust proxy', 1);
@@ -35,7 +35,7 @@ app.use(
         extended: true,
     }),
 );
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(express.json());
 // handlbars
 app.engine(
@@ -49,7 +49,7 @@ app.engine(
 );
 app.use(flash());
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('views', path.join(__dirname, 'src/resources/views'));
 // morgan
 //app.use(morgan('combined'));
 //middlewareE;
