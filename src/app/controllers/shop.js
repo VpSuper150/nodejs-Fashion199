@@ -5,15 +5,9 @@ const moment = require('moment');
 class ProductController {
     // [GET] /
     home(req, res, next) {
-        Product.find({}) // truyền 1 object chống
-            .then((product) => {
-                product = mongoosetoObjectS(product.map((product) => product));
-                res.render('shop', {
-                    product,
-                    title: 'Fashion',
-                });
-            })
-            .catch(next);
+        res.render('shop', {
+            title: 'Fashion',
+        });
     }
     showMen(req, res, next) {
         Product.find({ type: { $regex: 'nam' } })
@@ -39,9 +33,7 @@ class ProductController {
             })
             .catch(next);
     }
-    admin(req, res, next){
-        res.render('account/admin');
-    }
+
 }
 
 module.exports = new ProductController();
