@@ -114,8 +114,7 @@ class editProductController {
     handleForm(req, res, next) {
         switch (req.body.action) {
             case 'delete':
-                Product.delete({ _id: { $in: req.body.productIds } }) // vì req.body.courseId trả về 1 mảng nên trong mongdb ta dùng $in để lọc trong mảng
-                    .then(() => res.redirect('back'))
+                Product.delete({ _id: { $in: req.body.productIds } }) /
                     .catch(next);
                 break;
             default:
@@ -126,12 +125,12 @@ class editProductController {
     handleFormRestore(req, res, next) {
         switch (req.body.action) {
             case 'restore':
-                Product.restore({ _id: { $in: req.body.productIds } }) // vì req.body.courseId trả về 1 mảng nên trong mongdb ta dùng $in để lọc trong mảng
+                Product.restore({ _id: { $in: req.body.productIds } }) 
                     .then(() => res.redirect('back'))
                     .catch(next);
                 break;
             case 'permanently':
-                Product.deleteMany({ _id: { $in: req.body.productIds } }) // vì req.body.courseId trả về 1 mảng nên trong mongdb ta dùng $in để lọc trong mảng
+                Product.deleteMany({ _id: { $in: req.body.productIds } }) 
                     .then(() => res.redirect('back'))
                     .catch(next);
                 break;
