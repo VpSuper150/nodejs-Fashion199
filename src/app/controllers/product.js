@@ -114,7 +114,8 @@ class editProductController {
     handleForm(req, res, next) {
         switch (req.body.action) {
             case 'delete':
-                Product.delete({ _id: { $in: req.body.productIds } }) /
+                Product.delete({ _id: { $in: req.body.productIds } }) 
+                    .then(() => res.redirect('back'))
                     .catch(next);
                 break;
             default:
