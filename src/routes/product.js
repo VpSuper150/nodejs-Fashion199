@@ -13,17 +13,12 @@ router.patch('/:id/restore', productController.restore);
 router.delete('/:id/forceDestory', productController.forceDestory); // xóa vĩnh viễn
 router.delete('/:id', productController.delete); // xóa tạm thời
 router.put('/:id', productController.update);
-router.get(
-    '/:id/edit',
-    checkLoginPermission,
-    checkadmin,
-    productController.edit,
-);
+router.get('/:id/edit',checkLoginPermission,checkadmin, productController.edit);
 router.post('/handle-form-restore', productController.handleFormRestore);
 router.post('/handle-form-actions', productController.handleForm);
-router.get('/trash', checkLoginPermission, checkadmin, productController.trash);
-router.get('/store', checkLoginPermission, checkadmin, productController.show);
-router.get('/creat', checkLoginPermission, productController.creat);
+router.get('/trash',checkLoginPermission,checkadmin, productController.trash);
+router.get('/store',checkLoginPermission,checkadmin, productController.show);
+router.get('/creat',checkLoginPermission, productController.creat);
 router.get('/:slug', productController.showproduct);
 
 module.exports = router;

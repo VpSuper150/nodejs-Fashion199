@@ -7,7 +7,6 @@ module.exports = async function nameUser(req, res, next) {
         const authenticated = await User.findOne({ _id: idUser });
         res.locals.lcAuthenticated = authenticated;
         res.locals.userName = req.session.userName;
-        res.locals.permission = authenticated.permission;
         next();
     } catch (error) {
         next();

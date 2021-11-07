@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "beatiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write \"src/**/*.{js,json,scss}\" ",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node  index.js",
+    "dev": "nodemon  index.js",
     "build-css": "node-sass src/resources/scss/ --output src/public/css/",
     "watch": "nodemon -e scss -x npm run build-css",
     "test": "echo \"Error: no test specified\" && exit 1"
