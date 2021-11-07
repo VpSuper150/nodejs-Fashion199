@@ -34,12 +34,7 @@ router.get(
     checkLoginPermission,
     accountController.changePassword,
 );
-router.get(
-    '/admin',
-    checkLoginPermission,
-    checkadmin,
-    accountController.admin,
-);
+router.get('/admin', checkLoginPermission, checkadmin, accountController.admin);
 router.get(
     '/changeprofile',
     checkLoginPermission,
