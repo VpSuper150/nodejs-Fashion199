@@ -39,6 +39,9 @@ class ProductController {
             })
             .catch(next);
     }
+    admin(req, res, next){
+        res.render('account/admin');
+    }
 }
 
 module.exports = new ProductController();
