@@ -8,6 +8,8 @@ class ProductController {
         res.render('shop', {
             title: 'Fashion',
         });
+
+
     }
     showMen(req, res, next) {
         Product.find({ type: { $regex: 'nam' } })

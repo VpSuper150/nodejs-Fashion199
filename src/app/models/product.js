@@ -24,7 +24,11 @@ const Products = new Schema({
     viewCounts: { type: Number, required: false, default: 0 },
     createdAt: { type: Date, default: Date.now }, // lưu thời gian khởi tạo
     updatedAt: { type: Date, default: Date.now }, // thời gian bản ghi được cập nhật
-});
+},    
+{
+    versionKey: false,
+},
+);
 Products.plugin(mongooseDeleete, {
     overrideMethods: true,
     deletedAt: true,

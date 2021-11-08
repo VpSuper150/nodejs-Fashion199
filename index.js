@@ -44,6 +44,10 @@ app.engine(
         extname: '.hbs',
         helpers: {
             sum: (a, b) => a + b,
+            vnd: (a ) => a.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            })
         },
     }),
 );
