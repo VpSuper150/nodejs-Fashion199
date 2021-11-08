@@ -43,13 +43,25 @@ app.engine(
     exphbs({
         extname: '.hbs',
         helpers: {
+            name: (fullname) => {
+                const a = fullname.split(' ').slice(-1).toString();
+                return a.charAt(0).toUpperCase() + a.slice(1);
+            },
             sum: (a, b) => a + b,
             vnd: (a ) => a.toLocaleString('vi-VN', {
                 style: 'currency',
                 currency: 'VND'
-            })
+            }),
+            for: (n, block) => {
+                var accum = '';
+                for(var i = 0; i < n; ++i)
+                    accum += block.fn(i);
+                return accum;
+            }
         },
+        
     }),
+   
 );
 app.use(flash());
 app.set('view engine', 'hbs');

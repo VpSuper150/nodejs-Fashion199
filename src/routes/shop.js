@@ -3,6 +3,7 @@ const router = express.Router();
 const shopController = require('../app/controllers/shop');
 
 router.get('/women', shopController.showWomen);
+router.get('/men/:page', shopController.showMen)
 router.get('/men', shopController.showMen);
 router.get('/', shopController.home);
 

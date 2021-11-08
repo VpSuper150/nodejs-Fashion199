@@ -1,9 +1,8 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
-const { showName } = require('../../util/showsName');
 const { mongoosetoObject } = require('../../util/mongoose');
 const jwt = require('jsonwebtoken');
-const { SECRET } = require('../../config/secret');
+const { SECRET } = require('../../util/sp');
 const moment = require('moment');
 const api_key = '86328e7e1bb1203b9e62b0c91827cb41-10eedde5-72194190';
 const domain = 'sandbox9217aa53d6c84951bca6bd8bbb4dc938.mailgun.org';
@@ -88,7 +87,7 @@ class accountController {
                 req.body.password_hash = password_hash;
                 req.body.permission = 0;
                 const entity = new User(req.body);
-                entity.save();
+                return entity.save();
             })
             .then(() => {
                 req.flash('message', 'Bạn vừa đăng ký thành công');
@@ -149,8 +148,7 @@ class accountController {
                 }
                 const token = jwt.sign({ _id: data._id }, SECRET);
                 req.session.authUser = token;
-                const name = showName(data.fullName);
-                req.session.userName = { name: name };
+                req.session.userName = data.fullName;
                 return res.redirect('/');
             })
             .catch(next);
