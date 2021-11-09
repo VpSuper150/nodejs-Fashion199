@@ -196,8 +196,31 @@
 		</div>
 		<div class="clearfix"></div>
 		</div>
-	</div>
 
+	</div>
+	<div class="c-btm">
+		<div class="content-top1">
+			<div class="container">
+				{{#each product}}
+				<div class="col-md-3 col-md2 animated wow fadeInLeft" data-wow-delay=".5s">
+					<div class="col-md1 simpleCart_shelfItem">
+						<a href="/product/{{this.slug}}">
+							<img class="img-responsive" src="/images/{{this.image}}.png" alt="" />
+						</a>
+						<h3><a href="/product/{{this.slug}}">{{this.name}}</a></h3>
+						<div class="price">
+								<h5 class="item_price">{{vnd this.price }}</h5>
+								<a href="/product/{{this.slug}}" class="item_add">Mua ngay</a>
+								<div class="clearfix"> </div>
+						</div>
+					</div>
+				</div>	
+			{{/each}}	
+			</div>	
+			<div class="clearfix"> </div>
+			</div>	
+		</div>
+	</div>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
     $(function () {

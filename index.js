@@ -1,4 +1,5 @@
 const express = require('express');
+const createError = require('http-errors')
 const app = express();
 const port = process.env.PORT || 3000;
 //const morgan = require('morgan');
@@ -68,6 +69,17 @@ app.use(nameUser);
 route(app);
 // connect db
 db.connect();
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+    // render the error page
+    res.render('error');
+  });
+  
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
