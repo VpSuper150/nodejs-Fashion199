@@ -73,13 +73,11 @@ db.connect();
 app.use(function(req, res, next) {
     next(createError(404));
 });
-
 // error handler
 app.use(function(err, req, res, next) {
     // render the error page
-    res.render('error');
+    res.render('error',{title: 'error'});
   });
-  
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
