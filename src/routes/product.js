@@ -22,6 +22,12 @@ router.get(
 router.post('/handle-form-restore', productController.handleFormRestore);
 router.post('/handle-form-actions', productController.handleForm);
 router.get('/trash', checkLoginPermission, checkadmin, productController.trash);
+router.get(
+    '/store/:page',
+    checkLoginPermission,
+    checkadmin,
+    productController.show,
+);
 router.get('/store', checkLoginPermission, checkadmin, productController.show);
 router.get('/creat', checkLoginPermission, productController.creat);
 router.get('/:slug', productController.showproduct);

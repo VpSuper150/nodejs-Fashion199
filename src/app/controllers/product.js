@@ -1,23 +1,57 @@
 const Product = require('../models/product');
 const { mongoosetoObjectS } = require('../../util/mongoose');
 const { mongoosetoObject } = require('../../util/mongoose');
+const { toArray } = require('../../util/sp');
 const moment = require('moment');
 const PAGE_SIZE = 10;
 class editProductController {
     //[GET]/account/creat
     show(req, res, next) {
-
         const message = req.flash('message')[0];
-        Promise.all([Product.find({}), Product.countDocumentsDeleted()]).then(
-            ([product, deleteProduct]) => {
-                res.render('products/store', {
-                    deleteProduct,
-                    product: mongoosetoObjectS(product),
-                    title: 'Sản phẩm đã đăng',
-                    message,
-                });
-            },
-        );
+        let page = req.params.page;
+        if (page) {
+            page = parseInt(page) > 0 ? parseInt(page) : 1;
+            const skip = (page - 1) * PAGE_SIZE;
+            Promise.all([
+                Product.find({}).skip(skip).limit(PAGE_SIZE),
+                Product.countDocumentsDeleted(),
+                Product.countDocuments({}),
+            ])
+                .then(([product, deleteProduct, total]) => {
+                    const tongpage =
+                        Math.ceil(total / PAGE_SIZE) > 1
+                            ? toArray(Math.ceil(total / PAGE_SIZE))
+                            : 0;
+                    res.render('products/store', {
+                        deleteProduct,
+                        product: mongoosetoObjectS(product),
+                        tongpage,
+                        message,
+                        title: 'Sản phẩm đã đăng',
+                    });
+                })
+                .catch(next);
+        } else {
+            Promise.all([
+                Product.find({}).skip(0).limit(PAGE_SIZE),
+                Product.countDocumentsDeleted(),
+                Product.countDocuments({}),
+            ])
+                .then(([product, deleteProduct, total]) => {
+                    const tongpage =
+                        Math.ceil(total / PAGE_SIZE) > 1
+                            ? toArray(Math.ceil(total / PAGE_SIZE))
+                            : 0;
+                    res.render('products/store', {
+                        deleteProduct,
+                        product: mongoosetoObjectS(product),
+                        tongpage,
+                        message,
+                        title: 'Sản phẩm đã đăng',
+                    });
+                })
+                .catch(next);
+        }
     }
     showproduct(req, res, next) {
         Product.findOne({ slug: req.params.slug })
@@ -127,12 +161,12 @@ class editProductController {
     handleFormRestore(req, res, next) {
         switch (req.body.action) {
             case 'restore':
-                Product.restore({ _id: { $in: req.body.productIds } }) 
+                Product.restore({ _id: { $in: req.body.productIds } })
                     .then(() => res.redirect('back'))
                     .catch(next);
                 break;
             case 'permanently':
-                Product.deleteMany({ _id: { $in: req.body.productIds } }) 
+                Product.deleteMany({ _id: { $in: req.body.productIds } })
                     .then(() => res.redirect('back'))
                     .catch(next);
                 break;

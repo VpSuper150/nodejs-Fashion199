@@ -1,4 +1,4 @@
-const { SECRET } = require('../../util/sp');;
+const { SECRET } = require('../../util/sp');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
