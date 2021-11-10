@@ -6,7 +6,7 @@ const PAGE_SIZE = 10;
 class editProductController {
     //[GET]/account/creat
     show(req, res, next) {
-        const message = req.flash('message')[0];
+        const message = req.flash('message')[0];  
         let page = req.params.page;
         if (page) {
             page = parseInt(page) > 0 ? parseInt(page) : 1;
