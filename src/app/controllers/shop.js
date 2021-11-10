@@ -5,14 +5,12 @@ const PAGE_SIZE = 9;
 class ProductController {
     // [GET] /
     home(req, res, next) {
-        Product.find({'isSale.status': true})
-                .then(product => {
-                    res.render('shop',{
-                        product: mongoosetoObjectS(product),
-                        title: 'Fashion'
-                    })
-                })
-        
+        Product.find({ 'isSale.status': true }).then((product) => {
+            res.render('shop', {
+                product: mongoosetoObjectS(product),
+                title: 'Fashion',
+            });
+        });
     }
     showMen(req, res, next) {
         let page = req.params.page;

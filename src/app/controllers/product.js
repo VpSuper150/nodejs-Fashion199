@@ -1,12 +1,12 @@
 const Product = require('../models/product');
-const { mongoosetoObjectS,mongoosetoObject } = require('../../util/mongoose');
+const { mongoosetoObjectS, mongoosetoObject } = require('../../util/mongoose');
 const { toArray } = require('../../util/sp');
 const moment = require('moment');
 const PAGE_SIZE = 10;
 class editProductController {
     //[GET]/account/creat
     show(req, res, next) {
-        const message = req.flash('message')[0]; 
+        const message = req.flash('message')[0];
         let page = req.params.page;
         if (page) {
             page = parseInt(page) > 0 ? parseInt(page) : 1;
@@ -148,7 +148,7 @@ class editProductController {
     handleForm(req, res, next) {
         switch (req.body.action) {
             case 'delete':
-                Product.delete({ _id: { $in: req.body.productIds } }) 
+                Product.delete({ _id: { $in: req.body.productIds } })
                     .then(() => res.redirect('back'))
                     .catch(next);
                 break;
