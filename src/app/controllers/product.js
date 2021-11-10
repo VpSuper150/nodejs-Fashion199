@@ -1,6 +1,5 @@
 const Product = require('../models/product');
-const { mongoosetoObjectS } = require('../../util/mongoose');
-const { mongoosetoObject } = require('../../util/mongoose');
+const { mongoosetoObjectS,mongoosetoObject } = require('../../util/mongoose');
 const { toArray } = require('../../util/sp');
 const moment = require('moment');
 const PAGE_SIZE = 10;
