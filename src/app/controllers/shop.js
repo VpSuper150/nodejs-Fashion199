@@ -4,7 +4,7 @@ const moment = require('moment');
 const PAGE_SIZE = 9;
 class ProductController {
     // [GET] /
-   async home(req, res, next) {
+    home(req, res, next) {
         Product.find({'isSale.status': true})
                 .then(product => {
                     res.render('shop',{
