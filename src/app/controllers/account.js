@@ -23,7 +23,7 @@ class accountController {
         const message = req.flash('message')[0];
         res.render('account/login', {
             title: 'Đăng Nhập',
-            error,   
+            error, 
             message,
         });
     }
